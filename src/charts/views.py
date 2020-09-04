@@ -5,7 +5,7 @@ from django.views.generic import View
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from company.models import *
+
 
 User = get_user_model()
 
@@ -28,18 +28,11 @@ class ChartData(APIView):
     permission_classes = []
 
     def get(self, request, format=None):
-        qs=Company.objects.all()
-        
-        labels = []
-        default_items = []
-
-        for item in qs:
-            labels.append(item.name)
-            default_items.append(item.profit)
-
+        qs_count = User.objects.all().count()
+        labels = ["Users", "Blue", "Yellow", "Green", "Purple", "Orange"]
+        default_items = [qs_count, 23, 2, 3, 12, 2]
         data = {
                 "labels": labels,
                 "default": default_items,
         }
         return Response(data)
-
